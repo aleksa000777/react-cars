@@ -20,7 +20,6 @@ class CarsListing extends Component {
   }
 
   render() {
-    console.log("render", this.props);
     return (
       <div className={styles.carsListing}>
         <h1>Car listing</h1>
