@@ -3,7 +3,7 @@ import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { history } from "./utils";
 import { CarsListing, Car } from "./components";
 
-const Routes = () => (
+const App = () => (
   <Router history={history}>
     <Switch>
       <Route exact path="/" component={CarsListing} />
@@ -13,4 +13,4 @@ const Routes = () => (
   </Router>
 );
 
-export default Routes;
+export default App;
