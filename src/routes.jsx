@@ -1,19 +1,15 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
-import App from './app';
-import About from './components/About';
-import Sample from './components/Sample';
+import React from "react";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
+import { history } from "./utils";
+import { CarsListing, Car } from "./components";
 
 const Routes = () => (
-  <Router>
-    <div>
-      <Route exact path="/" component={App}/>
-      <Route path="/about" component={About}/>
-      <Route path="/sample" component={Sample}/>
-    </div>
+  <Router history={history}>
+    <Switch>
+      <Route exact path="/" component={CarsListing} />
+      <Route path="/car/:id" component={Car} />
+      <Redirect from="*" to="/" />
+    </Switch>
   </Router>
 );
 

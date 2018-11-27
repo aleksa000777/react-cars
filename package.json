@@ -9,7 +9,19 @@
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "eslint --ext js --ext jsx src || exit 0",
     "dev": " webpack-dashboard -- webpack-dev-server",
-    "test": "export NODE_ENV=test && jest"
+    "test": "export NODE_ENV=test && jest",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{css}": [
+      "stylelint --fix",
+      "git add"
+    ],
+    "src/**/*.{js,jsx}": [
+      "eslint --fix --ext .js --ext .jsx",
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -46,7 +58,9 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
+    "husky": "^1.2.0",
     "jest": "^22.0.4",
+    "lint-staged": "^8.1.0",
     "loglevel": "^1.6.0",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.9",
