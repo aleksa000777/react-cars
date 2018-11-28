@@ -49,18 +49,40 @@ class CarsListing extends Component {
     }));
   };
 
+  filterData = () => {
+    this.forceUpdate(); // Change state thrice / re-render once
+  };
+
   render() {
     const { visibleVehicles, currentPage, pageCount } = this.state;
     const { data } = this.props;
+    const { favorite, filtered } = data.state;
     const hasMore = currentPage < pageCount;
     const loader = (
       <div className="loader" key={0}>
         Loading ...
       </div>
     );
+    const displayVehicles = filtered
+      ? visibleVehicles.filter(vehicle => favorite[vehicle.id] === true)
+      : visibleVehicles;
 
     return (
       <div className={styles.carsListing}>
+        <form>
+          <label>
+            Display only favorite:
+            <input
+              name="fav"
+              type="checkbox"
+              defaultChecked={filtered}
+              onChange={e => {
+                this.filterData();
+                data.filter(e);
+              }}
+            />
+          </label>
+        </form>
         <InfiniteScroll
           pageStart={1}
           loadMore={this.loadItems}
@@ -69,7 +91,7 @@ class CarsListing extends Component {
           useWindow={false}
         >
           <ul>
-            {visibleVehicles.map(vehicle => (
+            {displayVehicles.map(vehicle => (
               <List vehicle={vehicle} key={uuidv1()} data={data} />
             ))}
           </ul>
