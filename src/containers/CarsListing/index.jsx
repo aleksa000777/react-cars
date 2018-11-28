@@ -29,14 +29,11 @@ class CarsListing extends Component {
     fetch(`${process.env.API_URL}?page=${page}`, {})
       .then(res => res.json())
       .then(({ data }) => {
-        const { vehicles } = data;
-        const pageCount = data.page_count;
-        const currentPage = data.current_page;
         this.setState({
-          vehicles,
-          visibleVehicles: vehicles,
-          pageCount,
-          currentPage
+          vehicles: data.vehicles,
+          visibleVehicles: data.vehicles,
+          pageCount: data.page_count,
+          currentPage: data.current_page
         });
       })
       .catch(error => console.error(error));
