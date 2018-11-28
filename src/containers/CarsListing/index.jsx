@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "normalize.css";
 import InfiniteScroll from "react-infinite-scroller";
-import uuidv1 from "uuid/v1";
+import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 
 import { List } from "../../components";
 import "../../../styles/base/_main.sass"; // Global styles
@@ -39,7 +39,7 @@ class CarsListing extends Component {
       .catch(error => console.error(error));
 
   loadItems = currentPage => {
-    // no need for API call since data are the same
+    // no need for API call, data are the same
     window.history.replaceState({}, "", `?page=${currentPage}`);
     this.setState(prevState => ({
       currentPage,
