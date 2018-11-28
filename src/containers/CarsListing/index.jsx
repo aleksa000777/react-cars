@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "normalize.css";
+import InfiniteScroll from "react-infinite-scroller";
+import uuidv1 from "uuid/v1";
 
 import { List } from "../../components";
 import "../../../styles/base/_main.sass"; // Global styles
@@ -12,39 +14,65 @@ class CarsListing extends Component {
     this.state = {
       vehicles: [],
       visibleVehicles: [],
-      current_page: 1,
-      page_count: 0,
-      filtered_count: 0,
-      qualifying_count: 0
+      currentPage: 1,
+      pageCount: 0
     };
   }
 
   componentDidMount() {
-    const { current_page } = this.state;
-    fetch(`${process.env.API_URL}?page=${current_page}`, {})
+    const { currentPage } = this.state;
+    window.history.replaceState({}, "", "/");
+    this.fetchVechicles(currentPage);
+  }
+
+  fetchVechicles = page =>
+    fetch(`${process.env.API_URL}?page=${page}`, {})
       .then(res => res.json())
       .then(({ data }) => {
-        const { vehicles, page_count, filtered_count, qualifying_count } = data;
+        const { vehicles } = data;
+        const pageCount = data.page_count;
+        const currentPage = data.current_page;
         this.setState({
           vehicles,
           visibleVehicles: vehicles,
-          page_count,
-          filtered_count,
-          qualifying_count
+          pageCount,
+          currentPage
         });
       })
       .catch(error => console.error(error));
-  }
+
+  loadItems = currentPage => {
+    // no need for API call since data are the same
+    window.history.replaceState({}, "", `?page=${currentPage}`);
+    this.setState(prevState => ({
+      currentPage,
+      visibleVehicles: [...prevState.visibleVehicles, ...prevState.vehicles]
+    }));
+  };
 
   render() {
-    const { visibleVehicles } = this.state;
+    const { visibleVehicles, currentPage, pageCount } = this.state;
+    const hasMore = currentPage < pageCount;
+    const loader = (
+      <div className="loader" key={0}>
+        Loading ...
+      </div>
+    );
     return (
       <div className={styles.carsListing}>
-        <ul>
-          {visibleVehicles.map(vehicle => (
-            <List vehicle={vehicle} key={vehicle.id} />
-          ))}
-        </ul>
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={this.loadItems}
+          hasMore={hasMore}
+          loader={loader}
+          useWindow={false}
+        >
+          <ul>
+            {visibleVehicles.map(vehicle => (
+              <List vehicle={vehicle} key={uuidv1()} />
+            ))}
+          </ul>
+        </InfiniteScroll>
       </div>
     );
   }

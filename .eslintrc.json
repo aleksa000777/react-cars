@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb",
+    "prettier"
+  ],
+  "rules": {
+    "react/prop-types": 0,
+    "react/no-did-mount-set-state": 0
+  },
+  "plugins": ["babel", "disable"],
+  "settings": {
+    "eslint-plugin-disable": {
+      "paths": {
+        "jsx-a11y": ["*.jsx"]
+      }
+    }
+  }
+}
