@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import { Subscribe } from "unstated";
 import styles from "./styles.sass";
-import { Failure } from "../../components";
+import { Failure, Favorite } from "../../components";
+import DataVehicles from "../../containers/DataVehicles";
 import { moneyConvert, paymentLoan } from "../../utils";
 import defaultCar from "../../images/defaultCar.png";
 
@@ -16,7 +18,8 @@ class Car extends Component {
       images: [],
       financials: [],
       error: false,
-      loading: true
+      loading: true,
+      id: ""
     };
   }
 
@@ -38,7 +41,8 @@ class Car extends Component {
           modelYear: vehicle.model_year,
           images: vehicle.image_location_list,
           financials: vehicle.product_financials[0],
-          loading: false
+          loading: false,
+          id: vehicle.id
         });
       })
       .catch(() => {
@@ -62,8 +66,10 @@ class Car extends Component {
       infinite: true,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      arrows: false
     };
+
     const {
       make,
       model,
@@ -72,8 +78,10 @@ class Car extends Component {
       images,
       financials,
       error,
-      loading
+      loading,
+      id
     } = this.state;
+    const { data } = this.props;
     const monthlyPayment = moneyConvert(financials.monthly_payment_cents);
     const startFee = moneyConvert(financials.start_fee_cents);
     const loanPayment = paymentLoan(
@@ -87,6 +95,7 @@ class Car extends Component {
         {!loading && error && <Failure />}
         {!loading && !error && (
           <section>
+            <Favorite vin={id} data={data} />
             <Slider {...settings}>
               {images.map(url => (
                 <div
@@ -126,4 +135,9 @@ class Car extends Component {
   }
 }
 
-export default Car;
+export { Car };
+export default args => (
+  <Subscribe to={[DataVehicles]}>
+    {data => <Car data={data} {...args} />}
+  </Subscribe>
+);
