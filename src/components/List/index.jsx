@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { moneyConvert } from "../../utils";
+import { Favorite } from "..";
 
-const List = ({ vehicle = {} }) => {
+const List = ({ vehicle = {}, data }) => {
   const { id, make, mileage, model, trim } = vehicle;
   const modelYear = vehicle.model_year;
   const productFinancials = vehicle.product_financials;
@@ -19,6 +20,7 @@ const List = ({ vehicle = {} }) => {
         <img src={chromeImageUrl} alt={model} />
       </Link>
       <div>
+        <Favorite vin={id} data={data} />
         <h4>
           {modelYear} {make} {model}
         </h4>

@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import "normalize.css";
 import InfiniteScroll from "react-infinite-scroller";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
+import { Subscribe } from "unstated";
 
 import { List } from "../../components";
+import DataVehicles from "../../containers/DataVehicles";
 import "../../../styles/base/_main.sass"; // Global styles
 import "../../../styles/base/_common.sass"; // Global styles
 import styles from "./styles.sass"; // Css-module styles
@@ -49,12 +51,14 @@ class CarsListing extends Component {
 
   render() {
     const { visibleVehicles, currentPage, pageCount } = this.state;
+    const { data } = this.props;
     const hasMore = currentPage < pageCount;
     const loader = (
       <div className="loader" key={0}>
         Loading ...
       </div>
     );
+
     return (
       <div className={styles.carsListing}>
         <InfiniteScroll
@@ -66,7 +70,7 @@ class CarsListing extends Component {
         >
           <ul>
             {visibleVehicles.map(vehicle => (
-              <List vehicle={vehicle} key={uuidv1()} />
+              <List vehicle={vehicle} key={uuidv1()} data={data} />
             ))}
           </ul>
         </InfiniteScroll>
@@ -75,4 +79,9 @@ class CarsListing extends Component {
   }
 }
 
-export default CarsListing;
+export { CarsListing };
+export default args => (
+  <Subscribe to={[DataVehicles]}>
+    {data => <CarsListing data={data} {...args} />}
+  </Subscribe>
+);
