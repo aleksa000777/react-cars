@@ -1,11 +1,11 @@
 {
-  "presets": ["env", "react"],
+  "presets": ["env", "react", "es2015"],
   "plugins": [
     "transform-runtime",
     "transform-decorators-legacy",
     "transform-class-properties"
   ],
-  
+
   "env": {
     "test": {
       "plugins": [
