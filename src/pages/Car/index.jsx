@@ -22,15 +22,22 @@ class Car extends Component {
   componentDidMount() {
     const { location } = this.props;
     const vin = location.pathname.split("/").pop();
-    this.fetchVechicles(vin);
+    const vehicle = localStorage.getItem(vin);
+    if (vehicle) {
+      this.setState({ vehicle: JSON.parse(vehicle), loading: false });
+    } else {
+      this.fetchVehicles(vin);
+    }
   }
 
-  fetchVechicles = vin =>
+  fetchVehicles = vin =>
     fetch(`${process.env.API_URL}/${vin}`, {})
       .then(res => res.json())
       .then(({ data: { vehicle } }) => {
         // format keys to camelCase
         const formatedData = formatData(vehicle);
+        // store data in localStarage
+        localStorage.setItem(vin, JSON.stringify(formatedData));
         this.setState({ vehicle: formatedData, loading: false });
       })
       .catch(() => {
@@ -40,7 +47,6 @@ class Car extends Component {
   render() {
     const { vehicle, loading, error } = this.state;
     const { id, make, model, imageLocationList } = vehicle;
-
     const { data } = this.props;
     const checked =
       data.state.favorite[id] === undefined ? false : data.state.favorite[id];
