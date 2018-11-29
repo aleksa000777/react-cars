@@ -7,7 +7,6 @@ import { Header, Footer } from "./components";
 import "normalize.css";
 import "../styles/base/_main.sass"; // Global styles
 import "../styles/base/_common.sass"; // Global styles
-// import "../styles/base/_reset.sass"; // Global styles
 
 const App = () => (
   <Fragment>
