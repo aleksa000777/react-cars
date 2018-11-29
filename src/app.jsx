@@ -1,20 +1,28 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { Provider } from "unstated";
 import { history } from "./utils";
 import { CarsListing, Car } from "./pages";
+import { Header, Footer } from "./components";
 
 const App = () => (
-  <Provider>
+  <Fragment>
     <Router history={history}>
-      <Switch>
-        <Route exact path="/" component={CarsListing} />
-        <Route exact path="/car/:id" component={Car} />
-
-        <Redirect from="*" to="/" />
-      </Switch>
+      <Fragment>
+        <Header />
+        <main>
+          <Provider>
+            <Switch>
+              <Route exact path="/" component={CarsListing} />
+              <Route exact path="/car/:id" component={Car} />
+              <Redirect from="*" to="/" />
+            </Switch>
+          </Provider>
+        </main>
+      </Fragment>
     </Router>
-  </Provider>
+    <Footer />
+  </Fragment>
 );
 
 export default App;
