@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 import { Subscribe } from "unstated";
+import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 import "normalize.css";
 
 import { List, FilterFavorite } from "../../components";
