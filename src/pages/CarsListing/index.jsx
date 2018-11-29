@@ -50,9 +50,7 @@ class CarsListing extends Component {
     }));
   };
 
-  filterData = () => {
-    this.forceUpdate(); // Change state thrice / re-render once
-  };
+  filterData = () => this.forceUpdate(); // Change state thrice / re-render once
 
   render() {
     const { visibleVehicles, currentPage, pageCount } = this.state;
