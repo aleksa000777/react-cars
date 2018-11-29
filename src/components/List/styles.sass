@@ -1,0 +1,43 @@
+.list
+  position: relative
+  list-style-type: none
+  display: flex
+  flex-direction: column
+  justify-content: space-around
+  align-items: center
+  padding-left: $mediumPadding
+
+  @media screen and (min-width: $desktop)
+    flex-direction: row
+
+  &::after
+    content: ""
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    border-top: 1px solid $grayLight
+
+.carListDetails
+  flex: 1
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: space-around
+  text-decoration: none
+
+  @media screen and (min-width: $desktop)
+    flex-direction: row
+
+.imageCar
+  max-width: 640px
+  width: 100%
+  object-fit: cover
+
+.details
+  .title
+    color: $grayDark
+    padding-bottom: 5px
+  p
+    color: $grayLight
+    margin: 5px
