@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "normalize.css";
 import InfiniteScroll from "react-infinite-scroller";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 import { Subscribe } from "unstated";
+import "normalize.css";
 
-import { List } from "../../components";
+import { List, FilterFavorite } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
 import "../../../styles/base/_main.sass"; // Global styles
 import "../../../styles/base/_common.sass"; // Global styles
@@ -23,6 +23,7 @@ class CarsListing extends Component {
 
   componentDidMount() {
     const { currentPage } = this.state;
+    // reset search param
     window.history.replaceState({}, "", "/");
     this.fetchVechicles(currentPage);
   }
@@ -69,20 +70,13 @@ class CarsListing extends Component {
 
     return (
       <div className={styles.carsListing}>
-        <form>
-          <label>
-            Display only favorite:
-            <input
-              name="fav"
-              type="checkbox"
-              defaultChecked={filtered}
-              onChange={e => {
-                this.filterData();
-                data.filter(e);
-              }}
-            />
-          </label>
-        </form>
+        <FilterFavorite
+          checked={filtered}
+          onChange={e => {
+            this.filterData();
+            data.handleCheckbox(e);
+          }}
+        />
         <InfiniteScroll
           pageStart={1}
           loadMore={this.loadItems}
@@ -92,7 +86,12 @@ class CarsListing extends Component {
         >
           <ul>
             {displayVehicles.map(vehicle => (
-              <List vehicle={vehicle} key={uuidv1()} data={data} />
+              <List
+                vehicle={vehicle}
+                key={uuidv1()}
+                data={data}
+                filterData={this.filterData}
+              />
             ))}
           </ul>
         </InfiniteScroll>
