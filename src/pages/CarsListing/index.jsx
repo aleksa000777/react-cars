@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { Subscribe } from "unstated";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
-import "normalize.css";
-
 import { List, FilterFavorite } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
-import "../../../styles/base/_main.sass"; // Global styles
-import "../../../styles/base/_common.sass"; // Global styles
 import styles from "./styles.sass"; // Css-module styles
 
 class CarsListing extends Component {
@@ -65,7 +61,6 @@ class CarsListing extends Component {
     const displayVehicles = filtered
       ? visibleVehicles.filter(vehicle => favorite[vehicle.id] === true)
       : visibleVehicles;
-
     return (
       <div className={styles.carsListing}>
         <FilterFavorite

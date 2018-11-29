@@ -1,8 +1,9 @@
 import React from "react";
+import styles from "./styles.sass"; // Css-module styles
 
-const FilterFavorite = ({ checked, onChange, copy = "Favorite" }) => (
-  <form>
-    <label>
+const FilterFavorite = ({ checked, onChange, copy, className }) => (
+  <form className={styles[className]}>
+    <label className={styles.container}>
       {copy}{" "}
       <input
         name="fav"
@@ -10,6 +11,7 @@ const FilterFavorite = ({ checked, onChange, copy = "Favorite" }) => (
         defaultChecked={checked}
         onChange={onChange}
       />
+      <span className={styles.checkmark} />
     </label>
   </form>
 );

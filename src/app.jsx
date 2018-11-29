@@ -4,6 +4,9 @@ import { Provider } from "unstated";
 import { history } from "./utils";
 import { CarsListing, Car } from "./pages";
 import { Header, Footer } from "./components";
+import "normalize.css";
+import "../styles/base/_main.sass"; // Global styles
+import "../styles/base/_common.sass"; // Global styles
 
 const App = () => (
   <Fragment>

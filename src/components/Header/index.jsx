@@ -1,13 +1,16 @@
 import React from "react";
+import styles from "./styles.sass"; // Css-module styles
 
 const Header = () => (
-  <div>
+  <header>
     <ul>
       <li>
-        <a href="/">Home</a>
+        <a className={styles.headerLink} href="/">
+          Fair
+        </a>
       </li>
     </ul>
-  </div>
+  </header>
 );
 
 export default Header;
