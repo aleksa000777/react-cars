@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "normalize.css";
 import InfiniteScroll from "react-infinite-scroller";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 import { Subscribe } from "unstated";
+import "normalize.css";
 
-import { List } from "../../components";
+import { List, FilterFavorite } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
 import "../../../styles/base/_main.sass"; // Global styles
 import "../../../styles/base/_common.sass"; // Global styles
@@ -23,6 +23,7 @@ class CarsListing extends Component {
 
   componentDidMount() {
     const { currentPage } = this.state;
+    // reset search param
     window.history.replaceState({}, "", "/");
     this.fetchVechicles(currentPage);
   }
@@ -30,12 +31,12 @@ class CarsListing extends Component {
   fetchVechicles = page =>
     fetch(`${process.env.API_URL}?page=${page}`, {})
       .then(res => res.json())
-      .then(({ data }) => {
+      .then(({ data: { vehicles } }) => {
         this.setState({
-          vehicles: data.vehicles,
-          visibleVehicles: data.vehicles,
-          pageCount: data.page_count,
-          currentPage: data.current_page
+          vehicles,
+          visibleVehicles: vehicles,
+          pageCount: vehicles.page_count,
+          currentPage: vehicles.current_page
         });
       })
       .catch(error => console.error(error));
@@ -69,20 +70,13 @@ class CarsListing extends Component {
 
     return (
       <div className={styles.carsListing}>
-        <form>
-          <label>
-            Display only favorite:
-            <input
-              name="fav"
-              type="checkbox"
-              defaultChecked={filtered}
-              onChange={e => {
-                this.filterData();
-                data.filter(e);
-              }}
-            />
-          </label>
-        </form>
+        <FilterFavorite
+          checked={filtered}
+          onChange={e => {
+            this.filterData();
+            data.handleCheckbox(e);
+          }}
+        />
         <InfiniteScroll
           pageStart={1}
           loadMore={this.loadItems}

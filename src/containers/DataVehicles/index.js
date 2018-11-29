@@ -10,10 +10,7 @@ export default class DataVehicles extends Container {
   }
 
   handleCheckbox = (e, vin) => {
-    this.state.favorite[vin] = e.target.checked;
-  };
-
-  filter = e => {
-    this.state.filtered = e.target.checked;
+    if (vin) this.state.favorite[vin] = e.target.checked;
+    else this.state.filtered = e.target.checked;
   };
 }

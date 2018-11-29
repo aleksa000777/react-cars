@@ -2,24 +2,18 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import { Subscribe } from "unstated";
 import styles from "./styles.sass";
-import { Failure, Favorite } from "../../components";
+import { Failure, FilterFavorite } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
-import { moneyConvert, paymentLoan } from "../../utils";
+import { moneyConvert, paymentLoan, formatData } from "../../utils";
 import defaultCar from "../../images/defaultCar.png";
 
 class Car extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      make: "",
-      model: "",
-      meleage: 0,
-      modelYear: 0,
-      images: [],
-      financials: [],
+      vehicle: {},
       error: false,
-      loading: true,
-      id: ""
+      loading: true
     };
   }
 
@@ -32,18 +26,10 @@ class Car extends Component {
   fetchVechicles = vin =>
     fetch(`${process.env.API_URL}/${vin}`, {})
       .then(res => res.json())
-      .then(({ data }) => {
-        const { vehicle } = data;
-        this.setState({
-          make: vehicle.make,
-          model: vehicle.model,
-          meleage: vehicle.meleage,
-          modelYear: vehicle.model_year,
-          images: vehicle.image_location_list,
-          financials: vehicle.product_financials[0],
-          loading: false,
-          id: vehicle.id
-        });
+      .then(({ data: { vehicle } }) => {
+        // format keys to camelCase
+        const formatedData = formatData(vehicle);
+        this.setState({ vehicle: formatedData, loading: false });
       })
       .catch(() => {
         this.setState({ error: true, loading: false });
@@ -70,18 +56,18 @@ class Car extends Component {
       arrows: false
     };
 
+    const { vehicle, loading, error } = this.state;
     const {
+      id,
       make,
       model,
       meleage,
       modelYear,
-      images,
-      financials,
-      error,
-      loading,
-      id
-    } = this.state;
-    const { data } = this.props;
+      imageLocationList,
+      productFinancials = []
+    } = vehicle;
+
+    const financials = productFinancials[0] ? productFinancials[0] : [];
     const monthlyPayment = moneyConvert(financials.monthly_payment_cents);
     const startFee = moneyConvert(financials.start_fee_cents);
     const loanPayment = paymentLoan(
@@ -90,14 +76,21 @@ class Car extends Component {
     );
     const { monthlyPaymentLoan, startPaymentLoan } = loanPayment;
 
+    const { data } = this.props;
+    const checked =
+      data.state.favorite[id] === undefined ? false : data.state.favorite[id];
+
     return (
       <React.Fragment>
         {!loading && error && <Failure />}
         {!loading && !error && (
           <section>
-            <Favorite vin={id} data={data} />
+            <FilterFavorite
+              checked={checked}
+              onChange={e => data.handleCheckbox(e, id)}
+            />
             <Slider {...settings}>
-              {images.map(url => (
+              {imageLocationList.map(url => (
                 <div
                   className="selectImage"
                   key={this.getImgKey(url)}
