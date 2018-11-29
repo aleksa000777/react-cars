@@ -31,12 +31,12 @@ class CarsListing extends Component {
   fetchVechicles = page =>
     fetch(`${process.env.API_URL}?page=${page}`, {})
       .then(res => res.json())
-      .then(({ data: { vehicles } }) => {
+      .then(({ data }) => {
         this.setState({
-          vehicles,
-          visibleVehicles: vehicles,
-          pageCount: vehicles.page_count,
-          currentPage: vehicles.current_page
+          vehicles: data.vehicles,
+          visibleVehicles: data.vehicles,
+          pageCount: data.page_count,
+          currentPage: data.current_page
         });
       })
       .catch(error => console.error(error));
@@ -86,7 +86,12 @@ class CarsListing extends Component {
         >
           <ul>
             {displayVehicles.map(vehicle => (
-              <List vehicle={vehicle} key={uuidv1()} data={data} />
+              <List
+                vehicle={vehicle}
+                key={uuidv1()}
+                data={data}
+                filterData={this.filterData}
+              />
             ))}
           </ul>
         </InfiniteScroll>
