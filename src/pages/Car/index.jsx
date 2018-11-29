@@ -22,6 +22,7 @@ class Car extends Component {
   componentDidMount() {
     const { location } = this.props;
     const vin = location.pathname.split("/").pop();
+    // mock localStorage, since API doesn't support ETags
     const vehicle = localStorage.getItem(vin);
     if (vehicle) {
       this.setState({ vehicle: JSON.parse(vehicle), loading: false });
