@@ -2,14 +2,17 @@ import React from "react";
 import Slider from "react-slick";
 import defaultCar from "../../images/defaultCar.png";
 
-const Carousel = ({ imageLocationList = [], make, model }) => {
+const Carousel = ({ imageLocationList = [], make, model, updateIndex }) => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false
+    arrows: true,
+    beforeChange: (oldIndex, newIndex) => {
+      updateIndex(newIndex + 1);
+    }
   };
 
   const getImgKey = url => {

@@ -8,6 +8,7 @@ import {
 } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
 import { formatData } from "../../utils";
+import styles from "./styles.sass";
 
 class Car extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Car extends Component {
     this.state = {
       vehicle: {},
       error: false,
-      loading: true
+      loading: true,
+      index: 1
     };
   }
 
@@ -45,8 +47,12 @@ class Car extends Component {
         this.setState({ error: true, loading: false });
       });
 
+  updateIndex = index => {
+    this.setState({ index });
+  };
+
   render() {
-    const { vehicle, loading, error } = this.state;
+    const { vehicle, loading, error, index } = this.state;
     const { id, make, model, imageLocationList } = vehicle;
     const { data } = this.props;
     const checked =
@@ -56,8 +62,9 @@ class Car extends Component {
       <React.Fragment>
         {!loading && error && <Failure />}
         {!loading && !error && (
-          <section>
+          <section className={styles.carPage}>
             <FilterFavorite
+              className="carDetails"
               checked={checked}
               onChange={e => data.handleCheckbox(e, id)}
             />
@@ -65,7 +72,11 @@ class Car extends Component {
               imageLocationList={imageLocationList}
               make={make}
               model={model}
+              updateIndex={this.updateIndex}
             />
+            <p>
+              {index} / {imageLocationList.length}
+            </p>
             <CarDetails vehicle={vehicle} />
           </section>
         )}

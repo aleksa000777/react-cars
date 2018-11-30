@@ -1,0 +1,66 @@
+.details
+
+  padding: 30px 20px
+  margin: $mediumPadding auto 0
+  max-width: 400px
+  background-color: $white
+
+  div
+    padding-top: 10px
+
+  p
+    margin: 5px
+
+.model
+  font-size: 25px
+
+.mileage
+  color: $orange
+
+.paymentMontly
+  display: flex
+
+  p
+    font-size: 25px
+    flex: 1
+
+  span
+    display: block
+    font-size: 40px
+    padding-top: 10px
+
+.paymentLoan
+  display: flex
+
+  p
+    font-size: 15px
+    color: $grayLight
+    flex: 1
+
+  span
+    display: block
+    color: $grayDark
+    font-size: 30px
+    padding-top: 10px
+
+.lineAfter
+  position: relative
+
+  span
+    background: $white
+    position: relative
+    z-index: 1
+    padding-right: 5px
+    font-size: 14px
+
+  &::after
+    content: ""
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+    height: 0.5em
+    border-top: 1px solid $grayLight
+
+.orange
+  color: $orange
