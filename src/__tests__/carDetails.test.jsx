@@ -22,7 +22,7 @@ const vehicle = {
   productFinancials: []
 };
 
-it("renders without crashing List", () => {
+it("renders without crashing CarDetails", () => {
   mount(
     <Router>
       <CarDetails vehicle={vehicle} />
