@@ -1,0 +1,60 @@
+.failureWrapper
+  height: 100vh
+
+  &::after
+    content: ''
+    background: url(../../images/stripes-min.png) no-repeat center center / contain
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: -1
+
+.failure
+  position: relative
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  padding: 100px 30px 0
+  text-align: center
+
+  &::after
+    content: ''
+    background: url(../../images/car.png) no-repeat center center / contain
+    display: flex
+    align-self: flex-end
+    width: 500px
+    max-width: 100%
+    height: 200px
+
+  .header
+    font-size: 27px
+    margin: 10px 0
+
+    @media screen and (min-width: $desktop)
+      font-size: 47px
+
+  .subHeader
+    font-size: 18px
+
+    @media screen and (min-width: $desktop)
+      font-size: 24px
+
+  button
+    width: 170px
+    padding: 8px
+    background: $orange
+    border: 1px solid $orange
+    color: $white
+    border-radius: 50px
+    font-weight: 200
+    font-size: 18px
+    display: block
+    text-align: center
+    transition: 0.2s
+    margin: 10px auto 50px
+
+    &:hover
+      cursor: pointer
