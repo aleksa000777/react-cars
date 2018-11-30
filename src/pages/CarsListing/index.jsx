@@ -68,32 +68,36 @@ class CarsListing extends Component {
       <Fragment>
         {loading && <Loader className="overlay" />}
         {!loading && (
-          <div className={styles.carsListing}>
+          <div className={styles.wrapper}>
             <FilterFavorite
+              className="filterFavorite"
+              copy="Only favorite"
               checked={filtered}
               onChange={e => {
                 this.filterData();
                 data.handleCheckbox(e);
               }}
             />
-            <InfiniteScroll
-              pageStart={1}
-              loadMore={this.loadItems}
-              hasMore={hasMore}
-              loader={loader}
-              useWindow={false}
-            >
-              <ul>
-                {displayVehicles.map(vehicle => (
-                  <List
-                    vehicle={vehicle}
-                    key={uuidv1()}
-                    data={data}
-                    filterData={this.filterData}
-                  />
-                ))}
-              </ul>
-            </InfiniteScroll>
+            <div className={styles.carsListing}>
+              <InfiniteScroll
+                pageStart={1}
+                loadMore={this.loadItems}
+                hasMore={hasMore}
+                loader={loader}
+                useWindow={false}
+              >
+                <ul>
+                  {displayVehicles.map(vehicle => (
+                    <List
+                      vehicle={vehicle}
+                      key={uuidv1()}
+                      data={data}
+                      filterData={this.filterData}
+                    />
+                  ))}
+                </ul>
+              </InfiniteScroll>
+            </div>
           </div>
         )}
       </Fragment>

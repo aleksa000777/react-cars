@@ -1,5 +1,17 @@
 header
   padding: $smallPadding
+  position: relative
+
+  ul
+    margin: 0
+
+  &::after
+    content: ""
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 100%
+    border-top: 1px solid $lightGray
 
 .headerLink
   color: $orange

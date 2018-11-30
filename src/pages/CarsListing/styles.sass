@@ -1,7 +1,17 @@
+.wrapper
+  display: flex
+  flex-direction: row
+
 .carsListing
   color: black
   height: 100vh
   overflow: auto
+  flex-grow: 1
+  margin-top: 50px
+
+  @media screen and (min-width: $desktop)
+    flex-direction: row
+    margin-top: 0
 
   ul
     max-width: $maxWidth
