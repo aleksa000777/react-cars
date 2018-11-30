@@ -1,0 +1,36 @@
+.footer
+  padding: 50px 5%
+  background-color: $darkGray
+  color: $gray
+  font-size: 18px
+  position: relative
+  z-index: 2
+
+  @media screen and (min-width: $desktop)
+    padding: 80px 12.4%
+
+  .title
+    color: $lightGray
+    font-size: 22px
+
+  .list
+    display: flex
+    flex-direction: column
+    max-width: 320px
+
+    @media screen and (min-width: $desktop)
+      max-width: 450px
+
+  .listItem
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding: 5px 0
+
+    a
+      text-decoration: none
+      color: $lightGray
+
+      &:hover
+        cursor: pointer
