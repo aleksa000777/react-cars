@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { Subscribe } from "unstated";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
-import { List, FilterFavorite } from "../../components";
+import { List, FilterFavorite, Loader } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
 import styles from "./styles.sass"; // Css-module styles
+import loaderImg from "../../../styles/img/__loader.gif";
 
 class CarsListing extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class CarsListing extends Component {
       vehicles: [],
       visibleVehicles: [],
       currentPage: 1,
-      pageCount: 0
+      pageCount: 0,
+      loading: true
     };
   }
 
@@ -32,7 +34,8 @@ class CarsListing extends Component {
           vehicles: data.vehicles,
           visibleVehicles: data.vehicles,
           pageCount: data.page_count,
-          currentPage: data.current_page
+          currentPage: data.current_page,
+          loading: false
         });
       })
       .catch(error => console.error(error));
@@ -49,46 +52,51 @@ class CarsListing extends Component {
   filterData = () => this.forceUpdate(); // Change state thrice / re-render once
 
   render() {
-    const { visibleVehicles, currentPage, pageCount } = this.state;
+    const { visibleVehicles, currentPage, pageCount, loading } = this.state;
     const { data } = this.props;
     const { favorite, filtered } = data.state;
     const hasMore = currentPage < pageCount;
     const loader = (
       <div className="loader" key={0}>
-        Loading ...
+        <img src={loaderImg} alt="loading" />
       </div>
     );
     const displayVehicles = filtered
       ? visibleVehicles.filter(vehicle => favorite[vehicle.id] === true)
       : visibleVehicles;
     return (
-      <div className={styles.carsListing}>
-        <FilterFavorite
-          checked={filtered}
-          onChange={e => {
-            this.filterData();
-            data.handleCheckbox(e);
-          }}
-        />
-        <InfiniteScroll
-          pageStart={1}
-          loadMore={this.loadItems}
-          hasMore={hasMore}
-          loader={loader}
-          useWindow={false}
-        >
-          <ul>
-            {displayVehicles.map(vehicle => (
-              <List
-                vehicle={vehicle}
-                key={uuidv1()}
-                data={data}
-                filterData={this.filterData}
-              />
-            ))}
-          </ul>
-        </InfiniteScroll>
-      </div>
+      <Fragment>
+        {loading && <Loader className="overlay" />}
+        {!loading && (
+          <div className={styles.carsListing}>
+            <FilterFavorite
+              checked={filtered}
+              onChange={e => {
+                this.filterData();
+                data.handleCheckbox(e);
+              }}
+            />
+            <InfiniteScroll
+              pageStart={1}
+              loadMore={this.loadItems}
+              hasMore={hasMore}
+              loader={loader}
+              useWindow={false}
+            >
+              <ul>
+                {displayVehicles.map(vehicle => (
+                  <List
+                    vehicle={vehicle}
+                    key={uuidv1()}
+                    data={data}
+                    filterData={this.filterData}
+                  />
+                ))}
+              </ul>
+            </InfiniteScroll>
+          </div>
+        )}
+      </Fragment>
     );
   }
 }
