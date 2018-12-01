@@ -93,7 +93,7 @@ class CarsListing extends Component {
               />
               <SliderRange
                 onSliderChange={e => {
-                  // this.filterData();
+                  this.filterData();
                   data.onSliderChange(e);
                 }}
                 sliderValue={sliderValue}

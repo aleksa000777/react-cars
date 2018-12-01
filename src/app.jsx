@@ -10,21 +10,21 @@ import "../styles/base/_common.sass"; // Global styles
 
 const App = () => (
   <Fragment>
-    <Router history={history}>
-      <Fragment>
-        <Header />
-        <main>
-          <Provider>
+    <Provider>
+      <Router history={history}>
+        <Fragment>
+          <Header />
+          <main>
             <Switch>
               <Route exact path="/" component={CarsListing} />
               <Route exact path="/car/:id" component={Car} />
               <Redirect from="*" to="/" />
             </Switch>
-          </Provider>
-        </main>
-      </Fragment>
-    </Router>
-    <Footer />
+          </main>
+        </Fragment>
+      </Router>
+      <Footer />
+    </Provider>
   </Fragment>
 );
 
