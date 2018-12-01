@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { Subscribe } from "unstated";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
-import { List, FilterFavorite, Loader } from "../../components";
+import { List, FilterFavorite, Loader, SliderRange } from "../../components";
 import DataVehicles from "../../containers/DataVehicles";
 import styles from "./styles.sass"; // Css-module styles
 import loaderImg from "../../../styles/img/__loader.gif";
@@ -54,30 +54,51 @@ class CarsListing extends Component {
   render() {
     const { visibleVehicles, currentPage, pageCount, loading } = this.state;
     const { data } = this.props;
-    const { favorite, filtered } = data.state;
+    const { favorite, filtered, sliderValue } = data.state;
     const hasMore = currentPage < pageCount;
     const loader = (
       <div className="loader" key={0}>
         <img src={loaderImg} alt="loading" />
       </div>
     );
-    const displayVehicles = filtered
-      ? visibleVehicles.filter(vehicle => favorite[vehicle.id] === true)
-      : visibleVehicles;
+    // filter cars by mileage range
+    let displayVehicles =
+      sliderValue.length > 0
+        ? visibleVehicles.filter(
+            vehicle =>
+              vehicle.mileage > sliderValue[0] * 1000 &&
+              vehicle.mileage < sliderValue[1] * 1000
+          )
+        : visibleVehicles;
+    // filter favorite
+    if (filtered) {
+      displayVehicles = displayVehicles.filter(
+        vehicle => favorite[vehicle.id] === true
+      );
+    }
     return (
       <Fragment>
         {loading && <Loader className="overlay" />}
         {!loading && (
           <div className={styles.wrapper}>
-            <FilterFavorite
-              className="filterFavorite"
-              copy="Only favorite"
-              checked={filtered}
-              onChange={e => {
-                this.filterData();
-                data.handleCheckbox(e);
-              }}
-            />
+            <section className={styles.leftSide}>
+              <FilterFavorite
+                className="filterFavorite1"
+                copy="Only favorite"
+                checked={filtered}
+                onChange={e => {
+                  this.filterData();
+                  data.handleCheckbox(e);
+                }}
+              />
+              <SliderRange
+                onSliderChange={e => {
+                  // this.filterData();
+                  data.onSliderChange(e);
+                }}
+                sliderValue={sliderValue}
+              />
+            </section>
             <div className={styles.carsListing}>
               <InfiniteScroll
                 pageStart={1}

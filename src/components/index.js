@@ -6,3 +6,4 @@ export { default as Loader } from "./Loader";
 export { default as FilterFavorite } from "./FilterFavorite";
 export { default as CarDetails } from "./CarDetails";
 export { default as Carousel } from "./Carousel";
+export { default as SliderRange } from "./SliderRange";
