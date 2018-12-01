@@ -55,9 +55,9 @@ class Car extends Component {
     const { vehicle, loading, error, index } = this.state;
     const { id, make, model, imageLocationList } = vehicle;
     const { data } = this.props;
+
     const checked =
       data.state.favorite[id] === undefined ? false : data.state.favorite[id];
-
     return (
       <React.Fragment>
         {!loading && error && <Failure />}
@@ -75,7 +75,7 @@ class Car extends Component {
               updateIndex={this.updateIndex}
             />
             <p>
-              {index} / {imageLocationList.length}
+              {index} /{imageLocationList.length}
             </p>
             <CarDetails vehicle={vehicle} />
           </section>

@@ -1,6 +1,9 @@
 .wrapper
   display: flex
-  flex-direction: row
+  flex-direction: column
+
+  @media screen and (min-width: $desktop)
+    flex-direction: row
 
 .carsListing
   color: black
@@ -8,6 +11,7 @@
   overflow: auto
   flex-grow: 1
   margin-top: 50px
+
 
   @media screen and (min-width: $desktop)
     flex-direction: row
@@ -17,3 +21,6 @@
     max-width: $maxWidth
     padding: 0 $mediumPadding
     margin: 0 auto 15px
+
+.leftSide
+  padding: 10px
