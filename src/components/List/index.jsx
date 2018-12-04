@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FilterFavorite } from "..";
+import { FilterFavorite, Image } from "..";
 import styles from "./styles.sass"; // Css-module styles
 
 const List = ({ vehicle = {}, data, filterData }) => {
@@ -21,7 +21,7 @@ const List = ({ vehicle = {}, data, filterData }) => {
         className="carFavorite"
       />
       <Link to={`/car/${id}`} className={styles.carListDetails}>
-        <img className={styles.imageCar} src={chromeImageUrl} alt={model} />
+        <Image className={styles.imageCar} src={chromeImageUrl} alt={model} />
         <div className={styles.details}>
           <p className={styles.title}>
             {modelYear} {make} {model}

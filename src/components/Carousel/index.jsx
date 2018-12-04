@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import defaultCar from "../../images/defaultCar.png";
+import { Image } from "..";
 
 const Carousel = ({ imageLocationList = [], make, model, updateIndex }) => {
   const settings = {
@@ -20,11 +20,6 @@ const Carousel = ({ imageLocationList = [], make, model, updateIndex }) => {
     return arr[arr.length - 2];
   };
 
-  const addDefaultSrc = ev => {
-    const img = ev;
-    img.target.src = defaultCar;
-  };
-
   return (
     <Slider {...settings}>
       {imageLocationList.map(url => (
@@ -34,7 +29,7 @@ const Carousel = ({ imageLocationList = [], make, model, updateIndex }) => {
           role="menuitem"
           tabIndex={0}
         >
-          <img onError={addDefaultSrc} alt={`${make} ${model}`} src={url} />
+          <Image alt={`${make} ${model}`} src={url} />
         </div>
       ))}
     </Slider>
