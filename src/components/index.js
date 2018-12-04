@@ -7,3 +7,4 @@ export { default as FilterFavorite } from "./FilterFavorite";
 export { default as CarDetails } from "./CarDetails";
 export { default as Carousel } from "./Carousel";
 export { default as SliderRange } from "./SliderRange";
+export { default as Image } from "./Image";
