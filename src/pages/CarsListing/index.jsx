@@ -3,6 +3,8 @@ import InfiniteScroll from "react-infinite-scroller";
 import { Subscribe } from "unstated";
 import uuidv1 from "uuid/v1"; // use this since we have duplicate data
 import { List, FilterFavorite, Loader, SliderRange } from "../../components";
+import dataFetched from "../../data/data.json";
+
 import DataVehicles from "../../containers/DataVehicles";
 import styles from "./styles.sass"; // Css-module styles
 import loaderImg from "../../../styles/img/__loader.gif";
@@ -20,25 +22,17 @@ class CarsListing extends Component {
   }
 
   componentDidMount() {
-    const { currentPage } = this.state;
     // reset search param
     window.history.replaceState({}, "", "/");
-    this.fetchVechicles(currentPage);
+    const { vehicles } = dataFetched;
+    this.setState({
+      vehicles,
+      visibleVehicles: vehicles,
+      pageCount: dataFetched.page_count,
+      currentPage: dataFetched.current_page,
+      loading: false
+    });
   }
-
-  fetchVechicles = page =>
-    fetch(`${process.env.API_URL}?page=${page}`, {})
-      .then(res => res.json())
-      .then(({ data }) => {
-        this.setState({
-          vehicles: data.vehicles,
-          visibleVehicles: data.vehicles,
-          pageCount: data.page_count,
-          currentPage: data.current_page,
-          loading: false
-        });
-      })
-      .catch(error => console.error(error));
 
   loadItems = currentPage => {
     // no need for API call, data are the same
@@ -83,7 +77,7 @@ class CarsListing extends Component {
           <div className={styles.wrapper}>
             <section className={styles.leftSide}>
               <FilterFavorite
-                className="filterFavorite1"
+                className="filterFavorite"
                 copy="Only favorite"
                 checked={filtered}
                 onChange={e => {
@@ -99,7 +93,7 @@ class CarsListing extends Component {
                 sliderValue={sliderValue}
               />
             </section>
-            <div className={styles.carsListing}>
+            <div className={styles.carsListing} style={{ height: "100vh" }}>
               <InfiniteScroll
                 pageStart={1}
                 loadMore={this.loadItems}
