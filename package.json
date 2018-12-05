@@ -5,12 +5,13 @@
   "main": "''",
   "scripts": {
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
-    "serve:build": "npm run build && node server.js",
+    "serve:build": "npm run prefetch && npm run build && node server.js",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "eslint --ext js --ext jsx src || exit 0",
     "dev": " webpack-dashboard -- webpack-dev-server",
     "test": "export NODE_ENV=test && jest",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prefetch": "node -r esm prefetch.js"
   },
   "lint-staged": {
     "src/**/*.{css}": [
@@ -35,6 +36,8 @@
     "babel-preset-es2015": "^6.24.1",
     "core-js": "^2.5.7",
     "create-react-class": "^15.6.3",
+    "esm": "^3.0.84",
+    "node-fetch": "^2.3.0",
     "normalize.css": "^7.0.0",
     "raf": "^3.4.1",
     "rc-slider": "^8.6.3",
@@ -45,7 +48,8 @@
     "react-slick": "^0.23.2",
     "slick-carousel": "^1.8.1",
     "unstated": "^2.1.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "write-json": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
