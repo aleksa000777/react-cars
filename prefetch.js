@@ -3,7 +3,6 @@ import writeJson from 'write-json'
 
 import API from './src/utils/api'
 
-
 const api = new API({
   url: "https://private-4e19e-interviewapi3.apiary-mock.com/vehicles",
   fetch
